@@ -1,5 +1,7 @@
 ﻿using System;
 
+//Testing the functionality of the Multimap
+
 namespace MultiMap
 {
     public class MyClass
@@ -41,9 +43,9 @@ namespace MultiMap
                 test.Add("npc", v3);
                 //test.Add("npc", null);
             }
-            catch (NullNotAllowedException nullNotAllowedException)
+            catch (ValueNotAllowedException valueNotAllowedException)
             {
-                throw nullNotAllowedException;
+                throw valueNotAllowedException;
             }
             
 

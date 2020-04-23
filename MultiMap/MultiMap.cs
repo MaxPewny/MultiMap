@@ -5,14 +5,14 @@ using System.Text;
 
 namespace MultiMap
 {
-    class NullNotAllowedException  : System.ApplicationException
+    class ValueNotAllowedException  : System.ApplicationException // Custom Value not allowed Exception
     {
-        public NullNotAllowedException(string message) : base(message) { }
+        public ValueNotAllowedException(string message) : base(message) { }
     }
 
-    public delegate bool ExceptionCaseDelegate<V>(V pV);
+    public delegate bool ExceptionCaseDelegate<V>(V pV); // custom Delegate for ExceptionFunction
 
-    class MultiMap<K, V> : IMultiMap<K, V>
+    class MultiMap<K, V> : IMultiMap<K, V> // Implementation of IMultimap
     {
         public IEnumerable<V> this[K key]
         {
@@ -21,16 +21,16 @@ namespace MultiMap
                 List<V> values;
                 if (mDict.TryGetValue(key, out values))
                 {
-                    return values;
+                    return values; // returns all Values assigned to the given Key
                 }
                 else
                 {
-                    return new List<V>();
+                    return new List<V>(); // returns empty List if no matching Values where found
                 }
             }
         }
 
-        public IEnumerable<K> Keys => mDict.Keys;
+        public IEnumerable<K> Keys => mDict.Keys; // returns all Keys of the Dictionary
 
         public IEnumerable<V> Values
         {
@@ -46,17 +46,17 @@ namespace MultiMap
             }
         }
 
-        private Dictionary<K, List<V>> mDict = new Dictionary<K, List<V>>();
-        private ExceptionCaseDelegate<V> mExceptionFunctor;
+        private Dictionary<K, List<V>> mDict = new Dictionary<K, List<V>>(); // Dictionary where Keys and Values are stored
+        private ExceptionCaseDelegate<V> mExceptionFunctor; // ExceptionFunction Delegate
 
         public event EventDelegate<K> AddKeyEvent;
         public event EventDelegate<V> AddValueEvent;
         public event EventDelegate<K> RemoveKeyEvent;
         public event EventDelegate<V> RemoveValueEvent;
 
-        public MultiMap(ExceptionCaseDelegate<V> pDelegate) 
+        public MultiMap(ExceptionCaseDelegate<V> pDelegate) // Constructor takes a Delegate Function
         {
-            mExceptionFunctor = pDelegate;
+            mExceptionFunctor = pDelegate; // stores the given function in the Delegate
         }
 
         protected virtual void OnAddKeyEvent(K pK) 
@@ -78,17 +78,17 @@ namespace MultiMap
 
         public void Add(K pK, V pV)
         {
-            if (mExceptionFunctor(pV))
+            if (mExceptionFunctor(pV)) // throws Exception if Value doesnt fit the requirements defined through the Functor
             {
-                throw new NullNotAllowedException("EXCEPTION: Value can't be  NULL");
+                throw new ValueNotAllowedException(String.Format("EXCEPTION: Value can't be {0}", pV));
             }
             List<V> values;
-            if (mDict.TryGetValue(pK, out values))
+            if (mDict.TryGetValue(pK, out values)) // Adds Value to the Key if Key already exists
             {
                 values.Add(pV);
                 OnAddValueEvent(pV);
             }
-            else
+            else // Creates new Entry in Dict with given Key and Value
             {
                 List<V> newValues = new List<V>();
                 newValues.Add(pV);
@@ -107,7 +107,7 @@ namespace MultiMap
             {
                 foreach ( V2 value in pMultiMap[key])
                 {
-                    Add(key, value);
+                    Add(key, value); // Calls Add for every Key Value pair in added Multimap
                 }
             }
         }
@@ -117,11 +117,11 @@ namespace MultiMap
             List<V> values;
             if (mDict.TryGetValue(pK, out values))
             {
-                values.Remove(pV);
+                values.Remove(pV); // Removes Value
                 OnRemoveValueEvent(pV);
                 if (values.Count == 0)
                 {
-                    mDict.Remove(pK);
+                    mDict.Remove(pK); // also removes Key if Value was the last assigned to the Key
                     OnRemoveKeyEvent(pK);
                 }
             }
@@ -133,7 +133,7 @@ namespace MultiMap
             foreach (KeyValuePair<K, List<V>> pair in mDict)
             {
                 pair.Value.RemoveAll((V value) => {
-                    bool funcBool = pFunc(pair.Key, value);
+                    bool funcBool = pFunc(pair.Key, value); // Removes the Value and executes the delegate function
                     if (funcBool)
                     {
                         OnRemoveValueEvent(value);
@@ -143,22 +143,22 @@ namespace MultiMap
                 );
                 if (pair.Value.Count == 0)
                 {
-                    toDeleteKeys.Add(pair.Key);
+                    toDeleteKeys.Add(pair.Key); // If all Values of the Key are removed adds Key to list of Key to delete
                 }
             }
-            foreach (K key in toDeleteKeys)
+            foreach (K key in toDeleteKeys) // removes all keys 
             {
                 mDict.Remove(key);
                 OnRemoveKeyEvent(key);
             }
         }
 
-        public bool ContainsKey(K pK)
+        public bool ContainsKey(K pK) // Check if the MultiMap contains the given Parameter as a Key
         {
            return mDict.ContainsKey(pK);
         }
 
-        public bool ContainsValue(K pK ,V pV)
+        public bool ContainsValue(K pK ,V pV) // Check if the MultiMap contains the given Parameter as a Value
         {
             List<V> values;
             if (mDict.TryGetValue(pK, out values))
@@ -168,7 +168,7 @@ namespace MultiMap
             else return false;
         }
 
-        public IEnumerator<KeyValuePair<K, V>> GetEnumerator()
+        public IEnumerator<KeyValuePair<K, V>> GetEnumerator() // Returns the MultiMap as a Enumerator
         {
             foreach (KeyValuePair<K, List<V>> pair in mDict)
             {
@@ -180,7 +180,7 @@ namespace MultiMap
         }
 
 
-        IEnumerator IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator() // not used in this case
         {
             throw new NotImplementedException();
         }

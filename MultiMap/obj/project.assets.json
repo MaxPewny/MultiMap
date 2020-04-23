@@ -8,19 +8,23 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\Maximilian.Pewny\\.nuget\\packages\\": {}
+    "C:\\Users\\maxpe\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Maximilian.Pewny\\source\\repos\\MultiMap\\MultiMap\\MultiMap.csproj",
+      "projectUniqueName": "C:\\Users\\maxpe\\Documents\\Games Academy\\Wintersemester_2019-2020\\MultiMap\\MultiMap\\MultiMap.csproj",
       "projectName": "MultiMap",
-      "projectPath": "C:\\Users\\Maximilian.Pewny\\source\\repos\\MultiMap\\MultiMap\\MultiMap.csproj",
-      "packagesPath": "C:\\Users\\Maximilian.Pewny\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Maximilian.Pewny\\source\\repos\\MultiMap\\MultiMap\\obj\\",
+      "projectPath": "C:\\Users\\maxpe\\Documents\\Games Academy\\Wintersemester_2019-2020\\MultiMap\\MultiMap\\MultiMap.csproj",
+      "packagesPath": "C:\\Users\\maxpe\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\maxpe\\Documents\\Games Academy\\Wintersemester_2019-2020\\MultiMap\\MultiMap\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Maximilian.Pewny\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\maxpe\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -58,7 +62,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
       }
     }
   }
